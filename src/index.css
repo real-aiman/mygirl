@@ -1,0 +1,225 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: #08050f;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+}
+
+body {
+  font-family: 'Manrope', sans-serif;
+  color: #f5eefc;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  overflow-x: hidden;
+  position: relative;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #08050f;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff2d95, #6d28d9);
+  border-radius: 999px;
+}
+
+::selection {
+  background: #ff2d95;
+  color: #08050f;
+}
+
+/* ---------- Reusable cinematic utilities ---------- */
+
+.font-urdu {
+  font-family: 'Noto Nastaliq Urdu', serif;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(90deg, #f3d9a4, #d4af6a, #f3d9a4);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-pink {
+  background: linear-gradient(90deg, #ff7ab8, #ff2d95, #c4b5fd);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-strong {
+  background: rgba(20, 10, 35, 0.55);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glow-pink {
+  box-shadow: 0 0 40px rgba(255, 45, 149, 0.35), 0 0 80px rgba(109, 40, 217, 0.15);
+}
+
+.glow-gold {
+  box-shadow: 0 0 30px rgba(243, 217, 164, 0.35);
+}
+
+/* film grain overlay */
+.grain::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* ---------- Mobile responsiveness patch ---------- */
+@media (max-width: 767px) {
+  html, body, #root {
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-size: 15px;
+  }
+
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  section {
+    max-width: 100vw;
+  }
+
+  /* Keep the top navigation safely inside narrow screens. */
+  nav.fixed {
+    width: calc(100% - 20px) !important;
+    max-width: none !important;
+    top: 10px !important;
+  }
+
+  nav.fixed > div:first-child {
+    min-height: 48px;
+    padding-left: 10px;
+    padding-right: 8px;
+  }
+
+  /* Prevent oversized display/script fonts from creating horizontal overflow. */
+  .font-script.text-6xl,
+  .font-script.text-7xl,
+  .font-script.text-8xl {
+    font-size: clamp(3.25rem, 17vw, 5rem) !important;
+    line-height: 1.05 !important;
+  }
+
+  /* Hero birthday typography. */
+  h1.text-5xl,
+  h1.text-6xl,
+  h1.text-7xl {
+    font-size: clamp(2.75rem, 14vw, 4rem) !important;
+    line-height: 1.05 !important;
+  }
+
+  h2.text-4xl,
+  h2.text-5xl,
+  h2.text-6xl {
+    line-height: 1.08 !important;
+  }
+
+  /* Make long Urdu/English letter content wrap rather than widen the page. */
+  [dir='rtl'] {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  /* Memory carousel fits comfortably between the navigation arrows. */
+  .max-w-md.sm\:max-w-lg {
+    max-width: min(100%, 420px) !important;
+  }
+
+  /* Smaller memory images reduce the need for excessive scrolling on phones. */
+  img.h-\[390px\] {
+    height: min(390px, 115vw) !important;
+  }
+
+  /* Buttons remain easy to tap but never force a wider layout. */
+  button {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .glass-strong.rounded-full {
+    border-radius: 18px !important;
+  }
+
+  section {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .font-display.text-3xl {
+    font-size: 1.7rem !important;
+  }
+
+  .font-display.text-4xl {
+    font-size: 2rem !important;
+  }
+
+  .font-urdu.text-xl {
+    font-size: 1.05rem !important;
+  }
+
+  .glass.rounded-3xl {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .flex.flex-wrap.items-center.justify-center.gap-3 > button {
+    width: 100%;
+    justify-content: center;
+  }
+}
